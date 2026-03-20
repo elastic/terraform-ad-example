@@ -1,0 +1,12 @@
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710900000000,"nginx":{"access":{"body_sent":{"bytes":1024},"geoip":{"city_name":"San Francisco"},"user_agent":{"build":"Chrome/122.0"}}}}
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710900900000,"nginx":{"access":{"body_sent":{"bytes":2048},"geoip":{"city_name":"San Francisco"},"user_agent":{"build":"Chrome/122.0"}}}}
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710901800000,"nginx":{"access":{"body_sent":{"bytes":512},"geoip":{"city_name":"London"},"user_agent":{"build":"Firefox/123.0"}}}}
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710902700000,"nginx":{"access":{"body_sent":{"bytes":4096},"geoip":{"city_name":"Tokyo"},"user_agent":{"build":"Safari/17.3"}}}}
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710903600000,"nginx":{"access":{"body_sent":{"bytes":256},"geoip":{"city_name":"London"},"user_agent":{"build":"Chrome/122.0"}}}}
+{"index":{"_index":"filebeat-nginx-elasticco-full"}}
+{"@timestamp":1710904500000,"nginx":{"access":{"body_sent":{"bytes":8192},"geoip":{"city_name":"San Francisco"},"user_agent":{"build":"Firefox/123.0"}}}}

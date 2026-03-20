@@ -133,3 +133,37 @@ module "datafeed_state" {
 
   depends_on = [module.job_state]
 }
+
+#######################
+# Elasticsearch API key
+#######################
+
+resource "elasticstack_elasticsearch_security_api_key" "bulk_ingest" {
+  name = "bulk-ingest"
+
+  role_descriptors = jsonencode({
+    bulk_ingest = {
+      cluster = []
+      indices = [
+        {
+          names      = var.indices
+          privileges = ["create_index", "index", "create_doc"]
+        }
+      ]
+    }
+  })
+}
+
+#######################
+# Outputs
+#######################
+
+output "elasticsearch_https_endpoint" {
+  value = ec_deployment.demo.elasticsearch.https_endpoint
+}
+
+output "elasticsearch_api_key" {
+  description = "Base64-encoded API key for bulk ingestion."
+  value       = elasticstack_elasticsearch_security_api_key.bulk_ingest.encoded
+  sensitive   = true
+}

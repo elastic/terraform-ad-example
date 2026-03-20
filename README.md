@@ -37,6 +37,7 @@ And get:
 ```
 .
 ├── main.tf                        # Root: providers, variables, module calls
+├── sample_data.ndjson             # Sample data for the AD job
 ├── .env.example                   # Template for secrets
 ├── elastic-env.sh                 # Helper to load/unload secrets
 └── modules/
@@ -130,7 +131,23 @@ terraform apply
 
 Type `yes` when prompted. The deployment takes a couple of minutes; the ML resources are created immediately after.
 
-### 6. Open the job
+### 6. Load sample data
+
+The repo includes `sample_data.ndjson` with a few sample documents matching the job's expected fields (`@timestamp`, `nginx.access.body_sent.bytes`, and the influencer fields). Load it into the deployment using the Elasticsearch `_bulk` API:
+
+```bash
+ES_URL=$(terraform output -raw elasticsearch_https_endpoint)
+ES_API_KEY=$(terraform output -raw elasticsearch_api_key 2>/dev/null)
+
+curl -s -XPOST "${ES_URL}/_bulk" \
+  -H "Authorization: ApiKey ${ES_API_KEY}" \
+  -H "Content-Type: application/x-ndjson" \
+  --data-binary @sample_data.ndjson
+```
+
+In practice you'd want many more documents (hundreds to thousands across weeks/months) for the anomaly detection model to learn meaningful baselines — this sample is enough to verify the pipeline works end to end.
+
+### 7. Open the job
 
 Edit the `state` parameter of the `job_state` module call in `main.tf`:
 
@@ -148,7 +165,7 @@ Then apply:
 terraform apply
 ```
 
-### 7. Start the datafeed
+### 8. Start the datafeed
 
 Edit the `state` parameter of the `datafeed_state` module call in `main.tf`:
 
@@ -168,7 +185,7 @@ Then apply:
 terraform apply
 ```
 
-### 8. Cleaning up
+### 9. Cleaning up
 
 Stop the datafeed and close the job by setting the states back to `"stopped"` and `"closed"`, or destroy all resources:
 
@@ -178,7 +195,7 @@ terraform destroy
 
 Terraform tears everything down in the correct reverse order: state resources first, then the datafeed, then the job, and finally the Elastic Cloud deployment.
 
-### 9. Unload secrets when done
+### 10. Unload secrets when done
 
 ```
 source ./elastic-env.sh unset
