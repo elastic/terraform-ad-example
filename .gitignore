@@ -1,0 +1,22 @@
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Terraform directories ---
+.terraform/
+.terraform.lock.hcl
+
+# --- Terraform state (may contain secrets!) ---
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# --- Local tfvars with secrets (if you use them) ---
+*.tfvars
+*.tfvars.json
+secrets.auto.tfvars
+
+# --- Blog draft ---
+blog_draft.md
